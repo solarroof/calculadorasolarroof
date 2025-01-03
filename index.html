@@ -21,6 +21,7 @@
             flex-direction: column;
             align-items: center;
             margin-bottom: 20px;
+            padding-top: 40px; /* Aumenta o espaço acima da logo */
         }
 
         #logo {
@@ -49,27 +50,31 @@
             font-size: 14px;
             margin-bottom: 10px;
             padding: 10px;
-        }
-
-        input {
             width: 100%;
             max-width: 300px;
         }
 
         button {
-            font-weight: normal;
+            font-weight: normal; /* Remove o negrito */
             color: rgb(27, 45, 81);
+            text-align: center; /* Centraliza o texto do botão */
         }
 
         #botoes {
             display: flex;
+            flex-direction: column; /* Organiza os botões em coluna */
             gap: 10px;
-            margin-top: 10px;
+            margin-top: 20px;
+            align-items: center; /* Centraliza os botões */
+            width: 100%;
+            max-width: 500px;
         }
 
         #botoes button {
             flex: 1;
-            padding: 10px;
+            padding: 12px;
+            font-size: 16px; /* Aumenta o tamanho da fonte dos botões */
+            width: 100%; /* Garante que o botão ocupe toda a largura do contêiner */
         }
 
         #tabelaSobrecarga, #kitCalculadora, #calculadoraSobrecarga {
@@ -77,14 +82,14 @@
             margin-top: 20px;
             width: 90%;
             max-width: 500px;
-            text-align: center; /* Centraliza todo o conteúdo da tabela */
+            text-align: center;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 0 auto; /* Garante que a tabela será centralizada */
-            text-align: center; /* Centraliza o conteúdo das células da tabela */
+            margin: 0 auto;
+            text-align: center;
         }
 
         table th, table td {
@@ -95,6 +100,26 @@
         .resultado {
             text-transform: uppercase;
             font-size: 12px;
+        }
+
+        /* Ajuste para dispositivos móveis */
+        @media (max-width: 600px) {
+            body {
+                font-size: 14px;
+            }
+
+            #logo {
+                max-width: 80%; /* Ajusta o tamanho da logo em telas pequenas */
+            }
+
+            #botoes {
+                width: 100%;
+            }
+
+            #botoes button {
+                font-size: 14px;
+                padding: 12px;
+            }
         }
     </style>
 </head>
@@ -197,14 +222,14 @@
                 const geracaoAproximada = (quantidadeModulos * (modulo / 1000) * 115).toFixed(2);
 
                 document.getElementById('quantidadeModulos').textContent = `Quantidade de Módulos: ${quantidadeModulos}`;
-                document.getElementById('geracaoAproximada').textContent = `Geração Aproximada: ${geracaoAproximada} kWh`;
+                document.getElementById('geracaoAproximada').textContent = `Geração Aproximada: ${geracaoAproximada} kWh/mês`;
 
                 document.getElementById('quantidadeModulos').style.display = 'block';
                 document.getElementById('geracaoAproximada').style.display = 'block';
                 document.getElementById('btnLimparKit').style.display = 'inline';
             }
 
-            // Função para limpar os campos de kit
+            // Função para limpar os campos de quantidade de módulos
             function limparCamposKit() {
                 document.getElementById('projeto').value = '';
                 document.getElementById('modulo').value = '';
