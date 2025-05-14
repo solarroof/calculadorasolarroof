@@ -5,122 +5,136 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Dimensionamento</title>
     <style>
+        /* Resetando margens e paddings */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Layout geral */
         body {
-            font-family: 'Montserrat Extrabold', sans-serif;
-            font-size: 12px;
-            color: rgb(27, 45, 81);
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin: 0;
+            min-height: 100vh;
+            padding: 20px;
         }
 
         header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-top: 40px; /* Aumenta o espaço acima da logo */
+            text-align: center;
+            margin-bottom: 30px;
         }
 
         #logo {
-            width: 90%;
-            max-width: 400px;
+            width: 200px; /* Aumentei o tamanho da logo */
             margin-bottom: 20px;
         }
 
         h2 {
-            text-align: center;
-            margin: 0 10px;
+            font-size: 24px;
+            color: #002156; /* Cor alterada para #002156 */
         }
 
+        /* Formulário de entrada */
         form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        label, p {
-            margin: 10px 0 5px;
-        }
-
-        input, button {
-            font-family: 'Montserrat Extrabold', sans-serif;
-            font-size: 14px;
-            margin-bottom: 10px;
-            padding: 10px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 300px;
+            max-width: 400px;
+            text-align: left;
+        }
+
+        label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: #fafafa;
         }
 
         button {
-            font-weight: normal; /* Remove o negrito */
-            color: rgb(27, 45, 81);
-            text-align: center; /* Centraliza o texto do botão */
-        }
-
-        #botoes {
-            display: flex;
-            flex-direction: column; /* Organiza os botões em coluna */
-            gap: 10px;
-            margin-top: 20px;
-            align-items: center; /* Centraliza os botões */
             width: 100%;
-            max-width: 500px;
+            padding: 14px;
+            background-color: #002156; /* Azul alterado para #002156 */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
         }
 
-        #botoes button {
-            flex: 1;
+        button:hover {
+            background-color: #001f42; /* Azul mais escuro para o hover */
+        }
+
+        /* Botões separados */
+        #btnLimpar {
+            margin-top: 15px; /* Aumentei o espaçamento entre os botões */
+        }
+
+        /* Botão de Voltar (ajustado para ser menor) */
+        .btn-voltar {
+            cursor: pointer;
+            color: white; /* Cor do texto do botão VOLTA alterada para branco */
+            font-size: 12px; /* Tamanho da fonte reduzido */
+            margin-top: 10px;
+            text-decoration: underline;
+            padding: 6px 12px; /* Botão ainda menor */
+        }
+
+        /* Resultados */
+        .resultado {
+            background-color: #ffffff;
             padding: 12px;
-            font-size: 16px; /* Aumenta o tamanho da fonte dos botões */
-            width: 100%; /* Garante que o botão ocupe toda a largura do contêiner */
-        }
-
-        #tabelaSobrecarga, #kitCalculadora, #calculadoraSobrecarga {
-            display: none;
+            border-radius: 8px;
             margin-top: 20px;
-            width: 90%;
-            max-width: 500px;
-            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            font-size: 16px;
+            color: #333;
+            border: 1px solid #ddd;
         }
 
-        table {
+        /* Estilo da tabela */
+        #tabelaSobrecarga table {
             width: 100%;
             border-collapse: collapse;
-            margin: 0 auto;
+            margin-top: 20px;
+        }
+
+        #tabelaSobrecarga th, #tabelaSobrecarga td {
+            padding: 12px;
             text-align: center;
+            border: 1px solid #ddd;
         }
 
-        table th, table td {
-            border: 1px solid rgb(27, 45, 81);
-            padding: 8px;
+        #tabelaSobrecarga th {
+            background-color: #002156; /* Cor da tabela alterada para #002156 */
+            color: white;
         }
 
-        .resultado {
-            text-transform: uppercase;
-            font-size: 12px;
-        }
-
-        /* Ajuste para dispositivos móveis */
+        /* Responsividade */
         @media (max-width: 600px) {
-            body {
-                font-size: 14px;
-            }
-
-            #logo {
-                max-width: 80%; /* Ajusta o tamanho da logo em telas pequenas */
-            }
-
-            #botoes {
-                width: 100%;
-            }
-
-            #botoes button {
-                font-size: 14px;
-                padding: 12px;
+            form {
+                max-width: 90%;
             }
         }
+
     </style>
 </head>
 <body>
@@ -129,13 +143,53 @@
         <h2>Calculadora de Dimensionamento</h2>
     </header>
 
+    <!-- Botões principais -->
     <div id="botoes">
         <button type="button" id="btnTabela">Tabela de Sobrecarga dos Inversores</button>
-        <button type="button" id="btnKit">KIT - Quantidade de Módulos</button>
-        <button type="button" id="btnCalculadoraSobrecarga">Calculadora de Sobrecarga</button>
     </div>
 
-    <div id="tabelaSobrecarga">
+    <!-- Página Inicial -->
+    <div id="paginaInicial">
+        <form>
+            <label for="projeto">Valor do Projeto (kWh):</label>
+            <input type="number" id="projeto" placeholder="Ex: 1000" required>
+
+            <label for="modulo">Potência do Módulo (W):</label>
+            <input type="number" id="modulo" placeholder="Ex: 585" required>
+
+            <label for="potenciaInversor">Potência do Inversor (kW):</label>
+            <input type="number" id="potenciaInversor" placeholder="Ex: 7" required>
+
+            <label for="inversor">Escolha o modelo do inversor:</label>
+            <select id="inversor">
+                <option value="SAJ" data-sobrecarga="32">SAJ (32%)</option>
+                <option value="DEYE" data-sobrecarga="30">DEYE (30%)</option>
+                <option value="SOFAR" data-sobrecarga="30">SOFAR (30%)</option>
+                <option value="GROWATT" data-sobrecarga="32">GROWATT (32%)</option>
+                <option value="GOODWE" data-sobrecarga="35">GOODWE (35%)</option>
+                <option value="SOLIS" data-sobrecarga="35">SOLIS (35%)</option>
+                <option value="SUNGROW" data-sobrecarga="35">SUNGROW (35%)</option>
+                <option value="HYPONTECH" data-sobrecarga="35">HYPONTECH (35%)</option>
+                <option value="SOLPLANET" data-sobrecarga="35">SOLPLANET (35%)</option>
+                <option value="FRONIUS" data-sobrecarga="35">FRONIUS (35%)</option>
+            </select>
+
+            <button type="button" id="btnCalcularKit">Calcular</button>
+            <button type="button" id="btnLimparKit" style="display: none;" id="btnLimpar">Limpar</button>
+        </form>
+
+        <!-- Resultados -->
+        <div id="resultados">
+            <p class="resultado" id="quantidadeModulos" style="display: none;"></p>
+            <p class="resultado" id="geracaoAproximada" style="display: none;"></p>
+            <p class="resultado" id="potenciaRealKit" style="display: none;"></p>
+            <p class="resultado" id="sobrecargaInversor" style="display: none;"></p>
+        </div>
+    </div>
+
+    <!-- Tabela de Sobrecarga dos Inversores -->
+    <div id="tabelaSobrecarga" style="display: none;">
+        <button class="btn-voltar" id="btnVoltar">← Voltar para a Página Inicial</button>
         <h3>Tabela de Sobrecarga dos Inversores</h3>
         <table>
             <tr>
@@ -155,77 +209,63 @@
         </table>
     </div>
 
-    <div id="kitCalculadora">
-        <form>
-            <label for="projeto">Valor do Projeto (kWh):</label>
-            <input type="number" id="projeto" placeholder="Ex: 600" required>
-
-            <label for="modulo">Potência do Módulo (W):</label>
-            <input type="number" id="modulo" placeholder="Ex: 585" required>
-
-            <button type="button" id="btnCalcularKit">Calcular</button>
-            <button type="button" id="btnLimparKit" style="display: none;">Limpar</button>
-        </form>
-        <p class="resultado" id="quantidadeModulos" style="display: none;"></p>
-        <p class="resultado" id="geracaoAproximada" style="display: none;"></p>
-    </div>
-
-    <div id="calculadoraSobrecarga">
-        <form id="calculadoraForm">
-            <label for="kwp">KWP:</label>
-            <input type="number" id="kwp" required step="any">
-
-            <label for="potenciaInversor">POTÊNCIA DO INVERSOR:</label>
-            <input type="number" id="potenciaInversor" required step="any">
-
-            <button type="button" id="btnCalcularSobrecarga">Calcular</button>
-            <button type="button" id="btnLimparSobrecarga" style="display: none;">Limpar</button>
-            <p id="resultado">SOBRECARGA DO INVERSOR:</p>
-        </form>
-    </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Função para exibir a tabela de sobrecarga
             function mostrarTabela() {
                 document.getElementById('tabelaSobrecarga').style.display = 'block';
-                document.getElementById('kitCalculadora').style.display = 'none';
-                document.getElementById('calculadoraSobrecarga').style.display = 'none';
+                document.getElementById('paginaInicial').style.display = 'none';
             }
 
-            // Função para exibir a calculadora de quantidade de módulos
-            function mostrarKitCalculadora() {
-                document.getElementById('kitCalculadora').style.display = 'block';
+            // Função para voltar para a página inicial
+            function voltarPaginaInicial() {
                 document.getElementById('tabelaSobrecarga').style.display = 'none';
-                document.getElementById('calculadoraSobrecarga').style.display = 'none';
-                limparCamposKit();
+                document.getElementById('paginaInicial').style.display = 'block';
             }
 
-            // Função para exibir a calculadora de sobrecarga
-            function mostrarCalculadoraSobrecarga() {
-                document.getElementById('calculadoraSobrecarga').style.display = 'block';
-                document.getElementById('tabelaSobrecarga').style.display = 'none';
-                document.getElementById('kitCalculadora').style.display = 'none';
-            }
-
-            // Função para calcular a quantidade de módulos
+            // Função para calcular a quantidade de módulos e outras informações
             function calcularKit() {
                 const projeto = parseFloat(document.getElementById('projeto').value);
                 const modulo = parseFloat(document.getElementById('modulo').value);
+                const inversorSelecionado = document.getElementById('inversor').value;
+                const sobrecargaSelecionada = parseFloat(document.querySelector(`#inversor option[value="${inversorSelecionado}"]`).dataset.sobrecarga);
+                const potenciaInversor = parseFloat(document.getElementById('potenciaInversor').value);
 
-                if (isNaN(projeto) || isNaN(modulo) || modulo <= 0 || projeto <= 0) {
+                if (isNaN(projeto) || isNaN(modulo) || isNaN(potenciaInversor) || modulo <= 0 || projeto <= 0 || potenciaInversor <= 0) {
                     alert("Por favor, insira valores válidos.");
                     return;
                 }
 
-                const quantidadeModulos = Math.ceil(projeto / (modulo / 1000 * 115));
-                const geracaoAproximada = (quantidadeModulos * (modulo / 1000) * 115).toFixed(2);
+                // Cálculo da potência do kit em kWp
+                const potenciaKitKwp = (projeto / 115).toFixed(2);
+                
+                // Calcular a quantidade de módulos
+                const quantidadeModulos = Math.ceil(potenciaKitKwp * 1000 / modulo);
+                
+                // Calcular a potência real do kit
+                const potenciaRealKit = (quantidadeModulos * modulo / 1000).toFixed(2);
 
+                // Calcular a Geração Aproximada (em kWh)
+                const geracaoAproximada = (potenciaRealKit * 115).toFixed(2);
+
+                // Calcular a sobrecarga do inversor
+                const sobrecarga = (((potenciaRealKit / potenciaInversor) - 1) * 100).toFixed(2);
+
+                // Exibir resultados
                 document.getElementById('quantidadeModulos').textContent = `Quantidade de Módulos: ${quantidadeModulos}`;
-                document.getElementById('geracaoAproximada').textContent = `Geração Aproximada: ${geracaoAproximada} kWh/mês`;
+                document.getElementById('geracaoAproximada').textContent = `Geração Aproximada: ${geracaoAproximada} kWh`;
+                document.getElementById('potenciaRealKit').textContent = `Potência Real do Kit: ${potenciaRealKit} kWp`;
+                document.getElementById('sobrecargaInversor').textContent = `Sobrecarga do Inversor: ${sobrecarga}%`;
+
+                // Verificar se a sobrecarga é aceitável
+                const mensagemSobrecarga = (sobrecarga <= sobrecargaSelecionada) ? 'Sobrecarga aceitável.' : 'Sobrecarga excessiva!';
+
+                document.getElementById('sobrecargaInversor').textContent += ` - ${mensagemSobrecarga}`;
 
                 document.getElementById('quantidadeModulos').style.display = 'block';
                 document.getElementById('geracaoAproximada').style.display = 'block';
+                document.getElementById('potenciaRealKit').style.display = 'block';
+                document.getElementById('sobrecargaInversor').style.display = 'block';
                 document.getElementById('btnLimparKit').style.display = 'inline';
             }
 
@@ -233,45 +273,19 @@
             function limparCamposKit() {
                 document.getElementById('projeto').value = '';
                 document.getElementById('modulo').value = '';
+                document.getElementById('potenciaInversor').value = '';
                 document.getElementById('quantidadeModulos').style.display = 'none';
                 document.getElementById('geracaoAproximada').style.display = 'none';
+                document.getElementById('potenciaRealKit').style.display = 'none';
+                document.getElementById('sobrecargaInversor').style.display = 'none';
                 document.getElementById('btnLimparKit').style.display = 'none';
-            }
-
-            // Função para calcular a sobrecarga do inversor
-            function calcularEficiencia() {
-                var kwp = parseFloat(document.getElementById('kwp').value);
-                var potenciaInversor = parseFloat(document.getElementById('potenciaInversor').value);
-
-                if (isNaN(kwp) || isNaN(potenciaInversor)) {
-                    alert("Por favor, insira valores numéricos válidos.");
-                    return;
-                }
-
-                var sobrecargaInversor = ((kwp / potenciaInversor) - 1) * 100;
-
-                document.getElementById('resultado').innerText = `SOBRECARGA DO INVERSOR: ${sobrecargaInversor.toFixed(2)}%`;
-                document.getElementById('btnLimparSobrecarga').style.display = 'inline';
-            }
-
-            // Função para limpar os campos de sobrecarga
-            function limparCamposSobrecarga() {
-                document.getElementById('kwp').value = '';
-                document.getElementById('potenciaInversor').value = '';
-                document.getElementById('resultado').innerText = 'SOBRECARGA DO INVERSOR:';
-                document.getElementById('btnLimparSobrecarga').style.display = 'none';
             }
 
             // Associando os botões com as funções correspondentes
             document.getElementById('btnTabela').addEventListener('click', mostrarTabela);
-            document.getElementById('btnKit').addEventListener('click', mostrarKitCalculadora);
-            document.getElementById('btnCalculadoraSobrecarga').addEventListener('click', mostrarCalculadoraSobrecarga);
-
+            document.getElementById('btnVoltar').addEventListener('click', voltarPaginaInicial);
             document.getElementById('btnCalcularKit').addEventListener('click', calcularKit);
             document.getElementById('btnLimparKit').addEventListener('click', limparCamposKit);
-
-            document.getElementById('btnCalcularSobrecarga').addEventListener('click', calcularEficiencia);
-            document.getElementById('btnLimparSobrecarga').addEventListener('click', limparCamposSobrecarga);
         });
     </script>
 </body>
